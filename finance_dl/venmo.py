@@ -172,7 +172,7 @@ class Scraper(scrape_lib.Scraper):
     def download_csv(self):
         logger.info('Looking for CSV link')
         download_button, = self.wait_and_locate(
-            (By.XPATH, '//button[text() = "Download CSV"]'))
+            (By.XPATH, '//a[text() = "Download CSV"]'))
         self.click(download_button)
         logger.info('Waiting for CSV download')
         download_result, = self.wait_and_return(self.get_downloaded_file)

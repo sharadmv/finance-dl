@@ -336,8 +336,11 @@ def save_all_account_data(inst: ofxclient.institution.Institution,
             logger.warning('Account number is invalid path component: %r',
                            name)
             continue
-        save_single_account_data(
-            account=a, output_dir=os.path.join(output_dir, name), slowdown = slowdown, **kwargs)
+        try:
+            save_single_account_data(
+                account=a, output_dir=os.path.join(output_dir, name), slowdown = slowdown, **kwargs)
+        except RuntimeError:
+            pass
 
 
 def connect(params: dict) -> ofxclient.institution.Institution:

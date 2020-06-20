@@ -219,7 +219,7 @@ class Scraper(scrape_lib.Scraper):
                     break
 
         if regular:
-            orders_text = "Your Orders" if self.amazon_domain == Domain.CO_UK else "Orders"
+            orders_text = "Your Orders" if self.amazon_domain == Domain.CO_UK else "& Orders"
             # on co.uk, orders link is hidden behind the menu, hence not directly clickable
             (orders_link,), = self.wait_and_return(
                 lambda: self.find_elements_by_descendant_text_match('. = "{}"'.format(orders_text), 'a', only_displayed=False)
