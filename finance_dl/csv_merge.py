@@ -36,19 +36,27 @@ def merge_overlapping_csv_rows(csv_data_list, compare_fields):
     return merged_rows
 
 
-def write_csv(field_names, data, filename):
-    with atomic_write(filename, mode='w', newline='', encoding='utf-8') as f:
-        csv_writer = csv.DictWriter(
-            f, field_names, lineterminator='\n', quoting=csv.QUOTE_ALL)
-        csv_writer.writeheader()
-        csv_writer.writerows(data)
+def write_csv(field_names, data, filename, atomic=True):
+    if atomic:
+        with open(filename, mode='w', newline='', encoding='utf-8') as f:
+            csv_writer = csv.DictWriter(
+                f, field_names, lineterminator='\n', quoting=csv.QUOTE_ALL)
+            csv_writer.writeheader()
+            csv_writer.writerows(data)
+    else:
+        with open(filename, mode='w', newline='', encoding='utf-8') as f:
+            csv_writer = csv.DictWriter(
+                f, field_names, lineterminator='\n', quoting=csv.QUOTE_ALL)
+            csv_writer.writeheader()
+            csv_writer.writerows(data)
 
 
 def merge_into_file(filename,
                     field_names,
                     data,
                     sort_by=None,
-                    compare_fields=None):
+                    compare_fields=None,
+                    atomic=True):
     if compare_fields is None:
         compare_fields = field_names
 
@@ -61,4 +69,4 @@ def merge_into_file(filename,
                                           compare_fields=compare_fields)
     if sort_by is not None:
         data.sort(key=sort_by)
-    write_csv(field_names=field_names, data=data, filename=filename)
+    write_csv(field_names=field_names, data=data, filename=filename, atomic=atomic)

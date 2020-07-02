@@ -231,7 +231,8 @@ class Scraper(scrape_lib.Scraper):
                                          'transactions.csv')
         csv_merge.merge_into_file(filename=transactions_file,
                                   field_names=field_names, data=rows,
-                                  sort_by=get_sort_key)
+                                  sort_by=get_sort_key,
+                                  atomic=False)
 
     def get_existing_balances(self):
         if not os.path.exists(self.balances_path):
